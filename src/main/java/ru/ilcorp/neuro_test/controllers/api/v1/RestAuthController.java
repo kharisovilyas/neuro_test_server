@@ -13,7 +13,7 @@ import ru.ilcorp.neuro_test.utils.components.JwtTokenProvider;
 import ru.ilcorp.neuro_test.utils.exeptions.user.AuthenticationException;
 import ru.ilcorp.neuro_test.utils.exeptions.user.IncorrectTokenException;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1/auth")
 public class RestAuthController {
     @Autowired private AuthenticationService authenticationService;

@@ -38,6 +38,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)  // Отключаем CSRF для REST API
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/**").permitAll() // Доступ к маршрутам регистрации и логина
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/v1/teacher/**").hasRole("TEACHER")        // Только для учителей
                         .requestMatchers("/api/v1/student/**").hasRole("STUDENT")        // Только для студентов
                         .anyRequest().authenticated())   // Все остальные запросы должны быть аутентифицированы
