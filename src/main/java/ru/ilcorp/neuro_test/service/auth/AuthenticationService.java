@@ -94,7 +94,7 @@ public class AuthenticationService {
                 //Выбираем только те записи в которых есть accessCode равный отправленному пользователем
                 .filter(it -> it.getClassroomCode().getAccessCode().equals(student.getClassRoomCode()))
                 //Выбрасываем ошибку в случае если нет такого кода доступа к уч классу
-                .findAny().orElseThrow(() -> new IncorrectAccessCodeException("Некорректный код для входа в класс"));
+                .findAny().orElse(null);
 
         studentUserRepository.save(new StudentUserEntity(student, userAuthEntity, classEntity));
     }

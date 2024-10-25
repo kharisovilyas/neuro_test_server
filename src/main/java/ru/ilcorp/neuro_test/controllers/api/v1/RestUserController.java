@@ -25,7 +25,7 @@ public class RestUserController {
     private AuthenticationService authenticationService;
 
     @GetMapping("/")
-    public ResponseEntity<IDTOUser> getTeacher() {
+    public ResponseEntity<IDTOUser> getUserInform() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uniqueTeacherUsername = authentication.getName();
         // Получение ролей пользователя
