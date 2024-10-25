@@ -18,17 +18,31 @@ import java.util.Date;
 public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String jwtSecret; // Секретный ключ, храним в настройках приложения
-
     @Value("${jwt.expiration}")
-    private int jwtExpirationMs; // Время жизни токена
-    private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private long jwtExpirationMs;
+    @Value("${jwt.refreshExpiration}")
+    private long jwtRefreshExpirationMs;
 
-    public String generateToken(String uniqueUsername) {
+    private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final SecretKey refreshSecretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+    // Генерация токена доступа
+    public String generateAccessToken(String uniqueUsername) {
         return Jwts.builder()
                 .setSubject(uniqueUsername)
-                .setIssuedAt(new Date()) // Время создания токена
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)) // Время истечения токена
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(secretKey)
+                .compact();
+    }
+
+    // Генерация токена обновления
+    public String generateRefreshToken(String uniqueUsername) {
+        return Jwts.builder()
+                .setSubject(uniqueUsername)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtRefreshExpirationMs))
+                .signWith(refreshSecretKey)
                 .compact();
     }
 
@@ -36,6 +50,19 @@ public class JwtTokenProvider {
         try {
             return Jwts.parserBuilder()
                     .setSigningKey(secretKey)  // Используем объект SecretKey для верификации
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();  // Извлекаем claims из токена
+        } catch (SignatureException exception){
+            throw new IncorrectTokenException("Возникли проблемы со входом");
+        }
+
+    }
+
+    public Claims validateRefreshToken(String token) throws IncorrectTokenException {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(refreshSecretKey)  // Используем объект SecretKey для верификации
                     .build()
                     .parseClaimsJws(token)
                     .getBody();  // Извлекаем claims из токена

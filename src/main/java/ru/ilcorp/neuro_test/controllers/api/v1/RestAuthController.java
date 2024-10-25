@@ -2,9 +2,9 @@ package ru.ilcorp.neuro_test.controllers.api.v1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import ru.ilcorp.neuro_test.model.dto.response.server.dtoToken;
 import ru.ilcorp.neuro_test.model.dto.user.dtoLogin;
 import ru.ilcorp.neuro_test.model.dto.user.dtoStudentUserInformation;
 import ru.ilcorp.neuro_test.model.dto.user.dtoTeacherUserInformation;
@@ -13,29 +13,62 @@ import ru.ilcorp.neuro_test.utils.components.JwtTokenProvider;
 import ru.ilcorp.neuro_test.utils.exeptions.user.AuthenticationException;
 import ru.ilcorp.neuro_test.utils.exeptions.user.IncorrectTokenException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 public class RestAuthController {
     @Autowired private AuthenticationService authenticationService;
     @Autowired private JwtTokenProvider jwtTokenProvider;
 
+    @GetMapping("/teacher")
+    public ResponseEntity<dtoTeacherUserInformation> getTeacher() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String uniqueTeacherUsername = authentication.getName();
+        return ResponseEntity.ok().body(authenticationService.getTeacherInformation(uniqueTeacherUsername));
+    }
+
+    @PostMapping("/student")
+    public ResponseEntity<dtoStudentUserInformation> getStudent() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String uniqueStudentUsername = authentication.getName();
+        return ResponseEntity.ok().body(authenticationService.getStudentInformation(uniqueStudentUsername));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<Map<String, String>> refreshAccessToken(@RequestBody String refreshToken) {
+        try {
+            jwtTokenProvider.validateRefreshToken(refreshToken); // Проверяем токен обновления
+            String uniqueUsername = jwtTokenProvider.validateRefreshToken(refreshToken).getSubject();
+            String newAccessToken = jwtTokenProvider.generateAccessToken(uniqueUsername); // Генерируем новый токен доступа
+
+            Map<String, String> tokens = new HashMap<>();
+            tokens.put("accessToken", newAccessToken);
+            tokens.put("refreshToken", refreshToken);
+
+            return ResponseEntity.ok(tokens);
+        } catch (IncorrectTokenException e) {
+            return ResponseEntity.status(401).body(null);
+        }
+    }
 
     @PostMapping("/register/student")
-    public ResponseEntity<String> registerStudent(@RequestBody dtoStudentUserInformation student) {
+    public ResponseEntity<Map<String, String>> registerStudent(@RequestBody dtoStudentUserInformation student) {
         authenticationService.registerUser(student);
-        return ResponseEntity.ok().body(jwtTokenProvider.generateToken(student.getEmail()));
+        return ResponseEntity.ok(authenticationService.generateToken(jwtTokenProvider, student.getEmail()));
     }
 
     @PostMapping("/register/teacher")
-    public ResponseEntity<String> registerTeacher(@RequestBody dtoTeacherUserInformation teacher) {
+    public ResponseEntity<Map<String, String>> registerTeacher(@RequestBody dtoTeacherUserInformation teacher) {
         authenticationService.registerUser(teacher);
-        return ResponseEntity.ok().body(jwtTokenProvider.generateToken(teacher.getEmail()));
+        return ResponseEntity.ok(authenticationService.generateToken(jwtTokenProvider, teacher.getEmail()));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody dtoLogin user) throws AuthenticationException, IncorrectTokenException {
+    public ResponseEntity<Map<String, String>> login(@RequestBody dtoLogin user) throws AuthenticationException, IncorrectTokenException {
         // Логика аутентификации
         authenticationService.authenticate(user.getEmail(), user.getPassword());
-        return ResponseEntity.ok(jwtTokenProvider.generateToken(user.getEmail()));
+        return ResponseEntity.ok(authenticationService.generateToken(jwtTokenProvider, user.getEmail()));
     }
 }

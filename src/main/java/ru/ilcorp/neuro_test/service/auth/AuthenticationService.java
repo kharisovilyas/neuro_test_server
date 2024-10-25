@@ -17,11 +17,14 @@ import ru.ilcorp.neuro_test.repositories.classroom.edClassRepository;
 import ru.ilcorp.neuro_test.repositories.user.AuthenticationRepository;
 import ru.ilcorp.neuro_test.repositories.user.StudentUserRepository;
 import ru.ilcorp.neuro_test.repositories.user.TeacherUserRepository;
+import ru.ilcorp.neuro_test.utils.components.JwtTokenProvider;
 import ru.ilcorp.neuro_test.utils.exeptions.user.AuthenticationException;
 import ru.ilcorp.neuro_test.utils.exeptions.user.IncorrectAccessCodeException;
 import ru.ilcorp.neuro_test.utils.exeptions.user.UserAlreadyExistsException;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -38,6 +41,15 @@ public class AuthenticationService {
     private PasswordEncoder passwordEncoder; // Шифрование паролей
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    public Map<String, String> generateToken(JwtTokenProvider jwtTokenProvider, String uniqueUserName){
+        String accessToken = jwtTokenProvider.generateAccessToken(uniqueUserName);
+        String refreshToken = jwtTokenProvider.generateRefreshToken(uniqueUserName);
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("accessToken", accessToken);
+        tokens.put("refreshToken", refreshToken);
+        return tokens;
+    }
 
     public void registerUser(dtoUser user) throws UserAlreadyExistsException {
         // Проверка существующего пользователя
@@ -96,5 +108,13 @@ public class AuthenticationService {
         if (!auth.isAuthenticated()) {
             throw new AuthenticationException("Некорректный логин или пароль");
         }
+    }
+
+    public dtoTeacherUserInformation getTeacherInformation(String uniqueTeacherUsername) {
+        return new dtoTeacherUserInformation(teacherUserRepository.findByUserAuthEntityUniqueUsername(uniqueTeacherUsername));
+    }
+
+    public dtoStudentUserInformation getStudentInformation(String uniqueStudentUsername) {
+        return new dtoStudentUserInformation(studentUserRepository.findByUserAuthEntityUniqueUsername(uniqueStudentUsername));
     }
 }

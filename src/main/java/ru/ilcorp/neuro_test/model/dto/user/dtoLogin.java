@@ -1,9 +1,10 @@
 package ru.ilcorp.neuro_test.model.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import ru.ilcorp.neuro_test.model.dto.IDTOEntity;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class dtoLogin {
+public class dtoLogin implements IDTOEntity {
     private String email;
     private String password;
 
