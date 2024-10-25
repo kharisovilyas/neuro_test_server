@@ -6,6 +6,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.ilcorp.neuro_test.model.dto.IDTOEntity;
+import ru.ilcorp.neuro_test.model.dto.user.IDTOUser;
 import ru.ilcorp.neuro_test.model.dto.user.dtoStudentUserInformation;
 import ru.ilcorp.neuro_test.model.dto.user.dtoTeacherUserInformation;
 import ru.ilcorp.neuro_test.model.dto.user.dtoUser;
@@ -116,5 +118,9 @@ public class AuthenticationService {
 
     public dtoStudentUserInformation getStudentInformation(String uniqueStudentUsername) {
         return new dtoStudentUserInformation(studentUserRepository.findByUserAuthEntityUniqueUsername(uniqueStudentUsername));
+    }
+
+    public IDTOUser getUserInformation(String uniqueTeacherUsername, boolean isTeacher) {
+        return isTeacher ? getTeacherInformation(uniqueTeacherUsername) : getStudentInformation(uniqueTeacherUsername);
     }
 }

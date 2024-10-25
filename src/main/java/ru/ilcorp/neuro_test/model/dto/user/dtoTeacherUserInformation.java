@@ -9,7 +9,7 @@ import ru.ilcorp.neuro_test.model.entity.user.TeacherUserEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class dtoTeacherUserInformation extends dtoUser implements IDTOEntity {
+public class dtoTeacherUserInformation extends dtoUser implements IDTOEntity, IDTOUser {
     private List<dtoClass> edClasses;
     private List<dtoTesting> testings;
 

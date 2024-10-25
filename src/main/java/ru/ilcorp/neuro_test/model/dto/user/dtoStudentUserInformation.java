@@ -6,9 +6,8 @@ import ru.ilcorp.neuro_test.model.dto.classroom.dtoClass;
 import ru.ilcorp.neuro_test.model.entity.user.StudentUserEntity;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class dtoStudentUserInformation extends dtoUser implements IDTOEntity {
+public class dtoStudentUserInformation extends dtoUser implements IDTOEntity, IDTOUser {
     private String classRoomCode;
-    private dtoClass edClass;
 
     public dtoStudentUserInformation() {
     }
@@ -23,12 +22,5 @@ public class dtoStudentUserInformation extends dtoUser implements IDTOEntity {
 
     public void setClassRoomCode(String classRoomCode) {
         this.classRoomCode = classRoomCode;
-    }
-    public dtoClass getEdClass() {
-        return edClass;
-    }
-
-    public void setEdClass(dtoClass edClass) {
-        this.edClass = edClass;
     }
 }
