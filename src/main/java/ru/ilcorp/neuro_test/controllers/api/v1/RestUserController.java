@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.ilcorp.neuro_test.model.dto.IDTOEntity;
 import ru.ilcorp.neuro_test.model.dto.user.dtoStudentUserInformation;
 import ru.ilcorp.neuro_test.model.dto.user.dtoTeacherUserInformation;
 import ru.ilcorp.neuro_test.service.auth.AuthenticationService;
@@ -18,17 +19,10 @@ public class RestUserController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @GetMapping("/teacher")
-    public ResponseEntity<dtoTeacherUserInformation> getTeacher() {
+    @GetMapping("/")
+    public ResponseEntity<IDTOEntity> getTeacher() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uniqueTeacherUsername = authentication.getName();
         return ResponseEntity.ok().body(authenticationService.getTeacherInformation(uniqueTeacherUsername));
-    }
-
-    @GetMapping("/student")
-    public ResponseEntity<dtoStudentUserInformation> getStudent() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String uniqueStudentUsername = authentication.getName();
-        return ResponseEntity.ok().body(authenticationService.getStudentInformation(uniqueStudentUsername));
     }
 }
