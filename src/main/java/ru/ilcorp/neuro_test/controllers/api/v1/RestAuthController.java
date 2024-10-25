@@ -22,20 +22,6 @@ public class RestAuthController {
     @Autowired private AuthenticationService authenticationService;
     @Autowired private JwtTokenProvider jwtTokenProvider;
 
-    @GetMapping("/teacher")
-    public ResponseEntity<dtoTeacherUserInformation> getTeacher() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String uniqueTeacherUsername = authentication.getName();
-        return ResponseEntity.ok().body(authenticationService.getTeacherInformation(uniqueTeacherUsername));
-    }
-
-    @PostMapping("/student")
-    public ResponseEntity<dtoStudentUserInformation> getStudent() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String uniqueStudentUsername = authentication.getName();
-        return ResponseEntity.ok().body(authenticationService.getStudentInformation(uniqueStudentUsername));
-    }
-
     @PostMapping("/refresh")
     public ResponseEntity<Map<String, String>> refreshAccessToken(@RequestBody String refreshToken) {
         try {
