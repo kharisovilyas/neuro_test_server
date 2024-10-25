@@ -1,18 +1,16 @@
 package ru.ilcorp.neuro_test.model.dto.assignment;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import ru.ilcorp.neuro_test.model.dto.assignment.dtoCriteria;
+import ru.ilcorp.neuro_test.model.dto.user.dtoTeacherUserInformation;
 import ru.ilcorp.neuro_test.model.entity.assignment.AssignmentEntity;
-import ru.ilcorp.neuro_test.model.entity.assignment.criteria.CriteriaEntity;
 import ru.ilcorp.neuro_test.model.entity.user.TeacherUserEntity;
 
-import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class dtoAssignment {
     private Long assignmentId;
     private String title;
     private String description;
-    private TeacherUserEntity teacherUserEntity;
+    private dtoTeacherUserInformation teacher;
     private dtoCriteria criteria;
 
     public dtoAssignment(AssignmentEntity assignmentEntity) {
@@ -48,15 +46,21 @@ public class dtoAssignment {
         this.description = description;
     }
 
-    public TeacherUserEntity getTeacherUserEntity() {
-        return teacherUserEntity;
-    }
 
-    public void setTeacherUserEntity(TeacherUserEntity teacherUserEntity) {
-        this.teacherUserEntity = teacherUserEntity;
-    }
 
     public dtoCriteria getCriteria() {
         return criteria;
+    }
+
+    public dtoTeacherUserInformation getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(dtoTeacherUserInformation teacher) {
+        this.teacher = teacher;
+    }
+
+    public void setCriteria(dtoCriteria criteria) {
+        this.criteria = criteria;
     }
 }

@@ -50,7 +50,7 @@ public class RestEDClassController {
 
     @PostMapping("/join")
     @PreAuthorize("hasRole('STUDENT')") // Только для пользователей с ролью студент
-    public ResponseEntity<dtoMessage> joinToClass(@RequestParam String accessCode)
+    public ResponseEntity<dtoMessage> joinToClass(@RequestBody String accessCode)
             throws IncorrectTokenException
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

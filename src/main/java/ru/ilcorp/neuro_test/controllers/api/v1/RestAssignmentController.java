@@ -32,7 +32,7 @@ public class RestAssignmentController {
 
     @GetMapping("/all/byClass")
     @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью учитель
-    public ResponseEntity<List<dtoTesting>> getAllByClass(@RequestParam Long classId) throws EntityNotFoundException, IncorrectTokenException {
+    public ResponseEntity<List<dtoTesting>> getAllByClass(@RequestBody Long classId) throws EntityNotFoundException, IncorrectTokenException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uniqueTeacherUsername = authentication.getName();
         return ResponseEntity.ok().body(assignmentService.getAllByClass(classId, uniqueTeacherUsername));
