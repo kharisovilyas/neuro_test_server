@@ -23,6 +23,9 @@ public class AssignmentEntity {
     @Lob
     @Column(name = "description")
     private String description;
+    @Lob
+    @Column(name = "task")
+    private String task;
     @OneToOne(mappedBy = "assignmentEntity")
     private CriteriaEntity criteriaEntity;
     @ManyToOne
@@ -40,6 +43,7 @@ public class AssignmentEntity {
     public AssignmentEntity(dtoAssignment dtoAssignment) {
         this.title = dtoAssignment.getTitle();
         this.description = dtoAssignment.getDescription();
+        this.task = dtoAssignment.getTask();
     }
 
     public Long getAssignmentId() {
@@ -96,5 +100,13 @@ public class AssignmentEntity {
 
     public void setAssignmentEntity(AssignmentResultEntity assignmentEntity) {
         this.assignmentEntity = assignmentEntity;
+    }
+
+    public String getTask() {
+        return task;
+    }
+
+    public void setTask(String task) {
+        this.task = task;
     }
 }

@@ -10,12 +10,14 @@ import java.util.List;
 public class dtoRequestAI {
     private String title;
     private String description;
+    private String task;
     private String answer;
     private dtoCriteria criteria;
     public dtoRequestAI(dtoAssignment assignment, StudentAnswerEntity studentAnswerEntity) {
         this.title = assignment.getTitle();
         this.description = assignment.getDescription();
         this.answer = studentAnswerEntity.getAnswer();
+        this.task = assignment.getTask();
         this.criteria = assignment.getCriteria();
     }
 
@@ -49,5 +51,13 @@ public class dtoRequestAI {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getTask() {
+        return task;
+    }
+
+    public void setTask(String task) {
+        this.task = task;
     }
 }

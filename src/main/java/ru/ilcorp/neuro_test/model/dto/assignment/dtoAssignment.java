@@ -11,12 +11,14 @@ public class dtoAssignment {
     private String title;
     private String description;
     private dtoTeacherUserInformation teacher;
+    private String task;
     private dtoCriteria criteria;
 
     public dtoAssignment(AssignmentEntity assignmentEntity) {
         this.assignmentId = assignmentEntity.getAssignmentId();
         this.description = assignmentEntity.getDescription();
         this.title = assignmentEntity.getTitle();
+        this.task = assignmentEntity.getTask();
     }
 
     public dtoAssignment() {
@@ -62,5 +64,13 @@ public class dtoAssignment {
 
     public void setCriteria(dtoCriteria criteria) {
         this.criteria = criteria;
+    }
+
+    public String getTask() {
+        return task;
+    }
+
+    public void setTask(String task) {
+        this.task = task;
     }
 }
