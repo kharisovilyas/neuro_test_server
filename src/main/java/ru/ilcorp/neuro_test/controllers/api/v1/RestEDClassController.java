@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/v1/class")
+@RequestMapping("/api/v1/auth/class")
 public class RestEDClassController {
     @Autowired
     private ClassService classService;
