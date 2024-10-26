@@ -8,20 +8,12 @@ import ru.ilcorp.neuro_test.model.entity.assignment.result.ClassProgressEntity;
 import ru.ilcorp.neuro_test.model.entity.assignment.statistic.StudentStatisticsEntity;
 import ru.ilcorp.neuro_test.model.entity.classroom.ClassEntity;
 import ru.ilcorp.neuro_test.model.entity.classroom.ClassroomCode;
-import ru.ilcorp.neuro_test.model.entity.classroom.ClassroomEntity;
 
 import java.util.List;
 
 @Entity
 @Table(name = "user_student")
 public class StudentUserEntity extends SCUserEntity {
-
-    @Embedded
-    private ClassroomCode classRoomCode;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "id_class_room")
-    private ClassroomEntity classroomEntity;
-
     @OneToMany(mappedBy = "studentUserEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.JOIN)
     private List<StudentStatisticsEntity> studentStatisticsEntities;
@@ -43,22 +35,6 @@ public class StudentUserEntity extends SCUserEntity {
     }
 
     public StudentUserEntity() {
-    }
-
-    public ClassroomCode getClassRoomCode() {
-        return classRoomCode;
-    }
-
-    public void setClassRoomCode(ClassroomCode classRoomCode) {
-        this.classRoomCode = classRoomCode;
-    }
-
-    public ClassroomEntity getClassroomEntity() {
-        return classroomEntity;
-    }
-
-    public void setClassroomEntity(ClassroomEntity classroomEntity) {
-        this.classroomEntity = classroomEntity;
     }
 
     public List<StudentStatisticsEntity> getStudentStatisticsEntities() {

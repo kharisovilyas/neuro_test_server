@@ -1,7 +1,6 @@
 package ru.ilcorp.neuro_test.model.entity.user;
 
 import jakarta.persistence.*;
-import ru.ilcorp.neuro_test.model.entity.organization.OrganizationEntity;
 
 @MappedSuperclass
 public class SCUserEntity {
@@ -21,10 +20,6 @@ public class SCUserEntity {
 
     @Column(name = "email")
     protected String email;
-
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "organization")
-    protected OrganizationEntity organizationEntity;
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_user_auth")
@@ -70,14 +65,6 @@ public class SCUserEntity {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public OrganizationEntity getOrganizationEntity() {
-        return organizationEntity;
-    }
-
-    public void setOrganizationEntity(OrganizationEntity organizationEntity) {
-        this.organizationEntity = organizationEntity;
     }
 
     public UserAuthEntity getUserAuthEntity() {

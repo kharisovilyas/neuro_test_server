@@ -17,8 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/auth/auth")
 public class RestAuthController {
     @Autowired private AuthenticationService authenticationService;
     @Autowired private JwtTokenProvider jwtTokenProvider;

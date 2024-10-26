@@ -7,24 +7,17 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import ru.ilcorp.neuro_test.model.dto.user.dtoTeacherUserInformation;
-import ru.ilcorp.neuro_test.model.entity.assignment.AssignmentEntity;
 import ru.ilcorp.neuro_test.model.entity.assignment.ExtensiveTestingEntity;
 import ru.ilcorp.neuro_test.model.entity.assignment.criteria.AssignmentDetailCriteriaEntity;
 import ru.ilcorp.neuro_test.model.entity.assignment.result.ClassProgressEntity;
 import ru.ilcorp.neuro_test.model.entity.assignment.result.ExtensiveTestingResultEntity;
 import ru.ilcorp.neuro_test.model.entity.classroom.ClassEntity;
-import ru.ilcorp.neuro_test.model.entity.classroom.ClassroomEntity;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "user_teacher")
 public class TeacherUserEntity extends SCUserEntity {
-
-    @OneToMany(mappedBy = "teacherUserEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.JOIN)
-    private List<ClassroomEntity> classroomEntities;
 
     @OneToMany(mappedBy = "teacherUserEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.JOIN)
@@ -55,14 +48,6 @@ public class TeacherUserEntity extends SCUserEntity {
     }
 
     public TeacherUserEntity() {
-    }
-
-    public List<ClassroomEntity> getClassroomEntities() {
-        return classroomEntities;
-    }
-
-    public void setClassroomEntities(List<ClassroomEntity> classroomEntities) {
-        this.classroomEntities = classroomEntities;
     }
 
     public List<ExtensiveTestingEntity> getTestingEntities() {
