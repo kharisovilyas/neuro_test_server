@@ -17,7 +17,7 @@ import ru.ilcorp.neuro_test.utils.exeptions.user.IncorrectTokenException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/assignment")
+@RequestMapping("/api/v1/auth/assignment")
 public class RestAssignmentController {
     @Autowired private AssignmentService assignmentService;
 

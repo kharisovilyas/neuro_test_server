@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/auth/user")
 public class RestUserController {
     @Autowired
     private AuthenticationService authenticationService;
