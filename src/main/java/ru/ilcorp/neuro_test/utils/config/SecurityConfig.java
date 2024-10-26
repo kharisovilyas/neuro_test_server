@@ -35,19 +35,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Отключаем CSRF для REST API
+                .csrf(AbstractHttpConfigurer::disable)  // Отключаем CSRF для REST API
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/**").permitAll() // Доступ к маршрутам регистрации и логина
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
-                        .requestMatchers("/api/v1/teacher/**").hasRole("TEACHER") // Только для учителей
-                        .requestMatchers("/api/v1/student/**").hasRole("STUDENT") // Только для студентов
-                        .anyRequest().authenticated()) // Все остальные запросы должны быть аутентифицированы
-                .formLogin(AbstractHttpConfigurer::disable) // Отключаем стандартную форму входа
-                .httpBasic(AbstractHttpConfigurer::disable) // Отключаем базовую аутентификацию
-                .sessionManagement(session -> session // Использование сессий (если нужно)
+                        .requestMatchers("/api/v1/teacher/**").hasRole("TEACHER")        // Только для учителей
+                        .requestMatchers("/api/v1/student/**").hasRole("STUDENT")        // Только для студентов
+                        .anyRequest().authenticated())   // Все остальные запросы должны быть аутентифицированы
+                .formLogin(AbstractHttpConfigurer::disable)  // Отключаем стандартную форму входа
+                .httpBasic(AbstractHttpConfigurer::disable)  // Отключаем базовую аутентификацию
+                .sessionManagement(session -> session       // Использование сессий (если нужно)
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Регистрация фильтра
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Регистрация фильтра;
 
         return http.build();
     }
