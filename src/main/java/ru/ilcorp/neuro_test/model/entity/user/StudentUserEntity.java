@@ -27,7 +27,7 @@ public class StudentUserEntity extends SCUserEntity {
     public StudentUserEntity(dtoStudentUserInformation student, UserAuthEntity userAuthEntity, ClassEntity classEntity) {
         this.nameOfUser = student.getNameOfUser();
         this.surnameOfUser = student.getSurnameOfUser();
-        this.isTeacher = student.getTeacher();
+        this.isTeacher = false;
         this.email = student.getEmail();
         this.userAuthEntity = userAuthEntity;
         this.classEntity = classEntity;

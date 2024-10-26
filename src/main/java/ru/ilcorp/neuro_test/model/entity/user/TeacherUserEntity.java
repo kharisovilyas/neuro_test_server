@@ -43,7 +43,7 @@ public class TeacherUserEntity extends SCUserEntity {
         this.nameOfUser = teacher.getNameOfUser();
         this.surnameOfUser = teacher.getSurnameOfUser();
         this.email = teacher.getEmail();
-        this.isTeacher = teacher.getTeacher();
+        this.isTeacher = true;
         this.userAuthEntity = userAuth;
     }
 
