@@ -7,7 +7,6 @@ import ru.ilcorp.neuro_test.model.dto.user.dtoStudentUserInformation;
 import ru.ilcorp.neuro_test.model.entity.assignment.result.ClassProgressEntity;
 import ru.ilcorp.neuro_test.model.entity.assignment.statistic.StudentStatisticsEntity;
 import ru.ilcorp.neuro_test.model.entity.classroom.ClassEntity;
-import ru.ilcorp.neuro_test.model.entity.classroom.ClassroomCode;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class StudentUserEntity extends SCUserEntity {
     public StudentUserEntity(dtoStudentUserInformation student, UserAuthEntity userAuthEntity, ClassEntity classEntity) {
         this.nameOfUser = student.getNameOfUser();
         this.surnameOfUser = student.getSurnameOfUser();
-        this.isTeacher = student.getIsTeacher();
+        this.isTeacher = student.getTeacher();
         this.email = student.getEmail();
         this.userAuthEntity = userAuthEntity;
         this.classEntity = classEntity;

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,   // Определяем тип данных
-        property = "isTeacher"   // Название свойства, по которому будет определяться тип
+        property = "teacher"   // Название свойства, по которому будет определяться тип
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = dtoStudentUserInformation.class, name = "false"),
@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class dtoUser {
     private Long userId;
-    private Boolean isTeacher;
+    private Boolean teacher;
     private String nameOfUser;
     private String surnameOfUser;
     private String email;
@@ -29,12 +29,12 @@ public abstract class dtoUser {
         this.userId = userId;
     }
 
-    public Boolean getIsTeacher() {
-        return isTeacher;
+    public Boolean getTeacher() {
+        return teacher;
     }
 
-    public void setIsTeacher(Boolean isTeacher) {
-        this.isTeacher = isTeacher;
+    public void setTeacher(Boolean teacher) {
+        this.teacher = teacher;
     }
 
     public String getNameOfUser() {
