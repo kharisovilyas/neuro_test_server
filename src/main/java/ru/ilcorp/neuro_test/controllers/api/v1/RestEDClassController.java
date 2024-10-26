@@ -15,6 +15,7 @@ import ru.ilcorp.neuro_test.utils.exeptions.user.IncorrectTokenException;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/class")
 public class RestEDClassController {
     @Autowired
