@@ -129,7 +129,7 @@ public class AssignmentService {
                         .orElseThrow(() -> new EntityNotFoundException("Учителя не существует"));
 
         List<dtoRequestAI> requestsAI = testing.getAssignments().stream().map(it -> new dtoRequestAI(it, studentAnswerEntity)).toList();
-        dtoResponseAI responseAI = connectToAIService.modelLaunch(requestsAI);
+        dtoResponseAI responseAI = connectToAIService.modellingStartFromFile(requestsAI);
         LocalDateTime analyzeAt = LocalDateTime.now();
         Double overallMark = (
                 responseAI.getAssignments()
