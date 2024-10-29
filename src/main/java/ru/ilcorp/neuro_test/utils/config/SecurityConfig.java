@@ -68,8 +68,8 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.setAllowedOrigins(Arrays.asList("*")); // Разрешаем все источники (в продакшене лучше указать конкретные домены)
+        config.setAllowCredentials(true); // разрешает передачу куки и учетных данных
+        config.setAllowedOrigins(Arrays.asList("http://82.179.36.248"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         source.registerCorsConfiguration("/**", config);
