@@ -42,16 +42,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors().configurationSource(request -> {
-                    CorsConfiguration config = new CorsConfiguration();
-                    config.addAllowedOrigin("http://example.com");
-                    config.addAllowedMethod("GET");
-                    config.addAllowedMethod("OPTIONS");
-                    config.addAllowedHeader("Content-Type");
-                    config.addAllowedHeader("Authorization");
-                    return config;
-                })
-                .and()
+                .cors().and()
                 .csrf(AbstractHttpConfigurer::disable)  // Отключаем CSRF для REST API
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Разрешаем OPTIONS запросы
@@ -68,6 +59,18 @@ public class SecurityConfig {
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Регистрация фильтра
 
         return http.build();
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://82.179.36.248"); // Замените на нужный домен
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 
     @Bean
