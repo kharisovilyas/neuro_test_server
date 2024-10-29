@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/auth/user")
+@RequestMapping("/api/v1/user")
 public class RestUserController {
     @Autowired
     private AuthenticationService authenticationService;
@@ -36,5 +36,10 @@ public class RestUserController {
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_TEACHER"));
 
         return ResponseEntity.ok().body(authenticationService.getUserInformation(uniqueTeacherUsername, isTeacher));
+    }
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> helloWorld(){
+        return ResponseEntity.ok("Hello World");
     }
 }
