@@ -41,7 +41,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(withDefaults())                  // Применение CORS до фильтров безопасности
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Добавляем источник CORS прямо в цепочку
                 .csrf(AbstractHttpConfigurer::disable)  // Отключаем CSRF для REST API
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/**").permitAll() // Доступ к маршрутам регистрации и логина
