@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/user")
 public class RestUserController {
     @Autowired
@@ -36,15 +37,6 @@ public class RestUserController {
 
         return ResponseEntity.ok().body(authenticationService.getUserInformation(uniqueTeacherUsername, isTeacher));
     }
-
-    @RequestMapping(
-            value = "/**",
-            method = RequestMethod.OPTIONS
-    )
-    public ResponseEntity handle() {
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
 
     @GetMapping("/hello")
     public ResponseEntity<String> helloWorld(){
