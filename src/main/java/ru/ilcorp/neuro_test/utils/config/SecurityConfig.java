@@ -42,7 +42,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(AbstractHttpConfigurer::disable)
+                .cors().configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.addAllowedOrigin("http://example.com");
+                    config.addAllowedMethod("GET");
+                    config.addAllowedMethod("OPTIONS");
+                    config.addAllowedHeader("Content-Type");
+                    config.addAllowedHeader("Authorization");
+                    return config;
+                })
+                .and()
                 .csrf(AbstractHttpConfigurer::disable)  // Отключаем CSRF для REST API
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Разрешаем OPTIONS запросы
