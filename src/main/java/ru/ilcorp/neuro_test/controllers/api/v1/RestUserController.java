@@ -1,14 +1,12 @@
 package ru.ilcorp.neuro_test.controllers.api.v1;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.ilcorp.neuro_test.model.dto.IDTOEntity;
 import ru.ilcorp.neuro_test.model.dto.user.IDTOUser;
 import ru.ilcorp.neuro_test.model.dto.user.dtoStudentUserInformation;
@@ -38,7 +36,16 @@ public class RestUserController {
 
         return ResponseEntity.ok().body(authenticationService.getUserInformation(uniqueTeacherUsername, isTeacher));
     }
-    @CrossOrigin(origins = "http://82.179.36.248") // Разрешите нужный источник
+
+    @RequestMapping(
+            value = "/**",
+            method = RequestMethod.OPTIONS
+    )
+    public ResponseEntity handle() {
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
     @GetMapping("/hello")
     public ResponseEntity<String> helloWorld(){
         return ResponseEntity.ok("Hello World");
