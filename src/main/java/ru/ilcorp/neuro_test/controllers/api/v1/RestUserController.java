@@ -38,7 +38,7 @@ public class RestUserController {
 
         return ResponseEntity.ok().body(authenticationService.getUserInformation(uniqueTeacherUsername, isTeacher));
     }
-
+    @CrossOrigin(origins = "http://82.179.36.248") // Разрешите нужный источник
     @GetMapping("/hello")
     public ResponseEntity<String> helloWorld(){
         return ResponseEntity.ok("Hello World");
