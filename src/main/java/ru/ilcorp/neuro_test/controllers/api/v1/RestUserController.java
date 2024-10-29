@@ -40,7 +40,6 @@ public class RestUserController {
     }
 
     @GetMapping("/hello")
-    @CrossOrigin(origins = "*")  // Добавьте эту аннотацию временно
     public ResponseEntity<String> helloWorld(){
         return ResponseEntity.ok("Hello World");
     }
