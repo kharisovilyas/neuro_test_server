@@ -42,7 +42,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())
+                .cors(c -> {
+                    CorsConfigurationSource source = corsConfigurationSource();
+                    c.configurationSource(source);
+                })
                 .csrf(AbstractHttpConfigurer::disable)  // Отключаем CSRF для REST API
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Разрешаем OPTIONS запросы
@@ -70,6 +73,8 @@ public class SecurityConfig {
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L); // Установите максимальный срок действия
+        // Логирование конфигурации
+        System.out.println("CORS Configuration: " + configuration);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
