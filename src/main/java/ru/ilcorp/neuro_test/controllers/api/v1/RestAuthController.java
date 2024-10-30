@@ -15,7 +15,7 @@ import ru.ilcorp.neuro_test.utils.exeptions.user.IncorrectTokenException;
 
 import java.util.HashMap;
 import java.util.Map;
-
+@CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
 @RestController
 @RequestMapping("/api/v1/auth")
 public class RestAuthController {
@@ -50,8 +50,6 @@ public class RestAuthController {
         authenticationService.registerUser(teacher);
         return ResponseEntity.ok(authenticationService.generateToken(jwtTokenProvider, teacher.getEmail()));
     }
-
-    @CrossOrigin(origins = {"http://localhost:3000", "194.58.114.242:8080"})
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody dtoLogin user) throws AuthenticationException, IncorrectTokenException {
         // Логика аутентификации
