@@ -16,14 +16,13 @@ import ru.ilcorp.neuro_test.utils.components.JwtTokenProvider;
 
 import java.util.Collection;
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/user")
 public class RestUserController {
     @Autowired
     private AuthenticationService authenticationService;
-    @CrossOrigin(origins = {"http://localhost:3000", "194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
-    @PostMapping("/")
+
+    @GetMapping("/")
     public ResponseEntity<IDTOUser> getUserInform() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uniqueTeacherUsername = authentication.getName();
@@ -37,14 +36,8 @@ public class RestUserController {
         return ResponseEntity.ok().body(authenticationService.getUserInformation(uniqueTeacherUsername, isTeacher));
     }
 
-    @CrossOrigin(origins = {"http://localhost:3000", "194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
     public ResponseEntity<?> handleUserOptions() {
         return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/hello")
-    public ResponseEntity<String> helloWorld(){
-        return ResponseEntity.ok("Hello World");
     }
 }
