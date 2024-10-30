@@ -18,13 +18,12 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/v1/user")
 public class RestUserController {
     @Autowired
     private AuthenticationService authenticationService;
-
-    @GetMapping("/")
+    @CrossOrigin(origins = {"http://localhost:3000", "194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
+    @PostMapping("/")
     public ResponseEntity<IDTOUser> getUserInform() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uniqueTeacherUsername = authentication.getName();
@@ -36,6 +35,12 @@ public class RestUserController {
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_TEACHER"));
 
         return ResponseEntity.ok().body(authenticationService.getUserInformation(uniqueTeacherUsername, isTeacher));
+    }
+
+    @CrossOrigin(origins = {"http://localhost:3000", "194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
+    @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> handleUserOptions() {
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/hello")
