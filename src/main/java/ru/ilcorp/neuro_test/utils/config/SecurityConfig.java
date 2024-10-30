@@ -70,6 +70,8 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://82.179.36.248")); // Замените на ваш домен Nuxt.js
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Замените на ваш домен Nuxt.js
+        configuration.setAllowedOrigins(Arrays.asList("https://ml-edu-platform.netlify.app/")); // Замените на ваш домен Nuxt.js
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"));
         configuration.setAllowCredentials(true); // Разрешить передачу куки
