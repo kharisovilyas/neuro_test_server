@@ -16,6 +16,7 @@ import ru.ilcorp.neuro_test.utils.components.JwtTokenProvider;
 
 import java.util.Collection;
 import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/user")
 public class RestUserController {
@@ -35,9 +36,13 @@ public class RestUserController {
 
         return ResponseEntity.ok().body(authenticationService.getUserInformation(uniqueTeacherUsername, isTeacher));
     }
-
-    @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
+    @RequestMapping(value = "/user", method = RequestMethod.OPTIONS)
     public ResponseEntity<?> handleUserOptions() {
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> helloWorld(){
+        return ResponseEntity.ok("Hello World");
     }
 }
