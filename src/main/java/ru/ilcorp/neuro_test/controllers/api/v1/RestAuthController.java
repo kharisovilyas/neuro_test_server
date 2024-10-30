@@ -51,6 +51,7 @@ public class RestAuthController {
         return ResponseEntity.ok(authenticationService.generateToken(jwtTokenProvider, teacher.getEmail()));
     }
 
+    @CrossOrigin(origins = {"http://localhost:3000", "194.58.114.242:8080"})
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody dtoLogin user) throws AuthenticationException, IncorrectTokenException {
         // Логика аутентификации
