@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,16 +28,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException, IncorrectTokenException
-    {
+            throws ServletException, IOException, IncorrectTokenException {
 
         final String authorizationHeader = request.getHeader("Authorization");
 
         String email = null;
         String jwt;
 
-        // Проверка на наличие токена
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        // Проверяем, что запрос не OPTIONS и есть заголовок Authorization
+        if (!request.getMethod().equals(HttpMethod.OPTIONS.name()) && authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
             email = jwtTokenProvider.validateToken(jwt).getSubject(); // Извлечение email из токена
         }
