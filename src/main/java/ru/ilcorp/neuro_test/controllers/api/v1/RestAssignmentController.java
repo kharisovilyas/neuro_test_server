@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.ilcorp.neuro_test.model.dto.assignment.*;
 import ru.ilcorp.neuro_test.model.dto.response.server.dtoMessage;
@@ -28,6 +27,13 @@ public class RestAssignmentController {
         String uniqueTeacherUsername = authentication.getName();
         assignmentService.addTesting(testing, uniqueTeacherUsername);
         return ResponseEntity.ok().body(new dtoMessage("SUCCESS", "Тестирование успешно загружено"));
+    }
+
+    @GetMapping("/get/byApi")
+    @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью учитель
+    public ResponseEntity<dtoApiGIAResponse> addAssignment() throws EntityNotFoundException, IncorrectTokenException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ResponseEntity.ok().body(assignmentService.getTestingFromGIA());
     }
 
     @GetMapping("/all/byClass")

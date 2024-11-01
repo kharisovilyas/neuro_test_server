@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.ilcorp.neuro_test.model.dto.ai.dtoAssignmentResultAI;
 import ru.ilcorp.neuro_test.model.dto.ai.dtoRequestAI;
-import ru.ilcorp.neuro_test.model.dto.assignment.dtoAssignment;
-import ru.ilcorp.neuro_test.model.dto.assignment.dtoStudentAnswer;
-import ru.ilcorp.neuro_test.model.dto.assignment.dtoTesting;
-import ru.ilcorp.neuro_test.model.dto.assignment.dtoTestingResult;
+import ru.ilcorp.neuro_test.model.dto.assignment.*;
 import ru.ilcorp.neuro_test.model.dto.response.server.dtoMessage;
 import ru.ilcorp.neuro_test.model.entity.assignment.AssignmentEntity;
 import ru.ilcorp.neuro_test.model.entity.assignment.ExtensiveTestingEntity;
@@ -155,5 +152,9 @@ public class AssignmentService {
                 teacherUserEntity
         );
         return new dtoTestingResult(testingResultEntity);
+    }
+
+    public dtoApiGIAResponse getTestingFromGIA() {
+        return null;
     }
 }

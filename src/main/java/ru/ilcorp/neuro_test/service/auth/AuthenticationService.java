@@ -1,5 +1,6 @@
 package ru.ilcorp.neuro_test.service.auth;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,7 +44,7 @@ public class AuthenticationService {
     private PasswordEncoder passwordEncoder; // Шифрование паролей
     @Autowired
     private AuthenticationManager authenticationManager;
-
+    @Transactional
     public Map<String, String> generateToken(JwtTokenProvider jwtTokenProvider, String uniqueUserName){
         String accessToken = jwtTokenProvider.generateAccessToken(uniqueUserName);
         String refreshToken = jwtTokenProvider.generateRefreshToken(uniqueUserName);
@@ -52,7 +53,7 @@ public class AuthenticationService {
         tokens.put("refreshToken", refreshToken);
         return tokens;
     }
-
+    @Transactional
     public void registerUser(dtoUser user) throws UserAlreadyExistsException {
         // Проверка существующего пользователя
         if (authenticationRepository.existsByUniqueUsername(user.getEmail())) {
@@ -85,7 +86,7 @@ public class AuthenticationService {
             registerTeacher(teacher, userAuth);
         }
     }
-
+    @Transactional
     private void registerStudent(dtoStudentUserInformation student, UserAuthEntity userAuthEntity) {
         ClassEntity classEntity = edClassRepository //В репозитории для таблицы Класс
                 .findAll() // Находим все записи
@@ -98,11 +99,11 @@ public class AuthenticationService {
 
         studentUserRepository.save(new StudentUserEntity(student, userAuthEntity, classEntity));
     }
-
+    @Transactional
     private void registerTeacher(dtoTeacherUserInformation teacher, UserAuthEntity userAuth) {
         teacherUserRepository.save(new TeacherUserEntity(teacher, userAuth));
     }
-
+    @Transactional
     public void authenticate(String email, String password) throws AuthenticationException{
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
@@ -111,15 +112,16 @@ public class AuthenticationService {
             throw new AuthenticationException("Некорректный логин или пароль");
         }
     }
-
+    @Transactional
     public dtoTeacherUserInformation getTeacherInformation(String uniqueTeacherUsername) {
         return new dtoTeacherUserInformation(teacherUserRepository.findByUserAuthEntityUniqueUsername(uniqueTeacherUsername));
     }
-
+    @Transactional
     public dtoStudentUserInformation getStudentInformation(String uniqueStudentUsername) {
         return new dtoStudentUserInformation(studentUserRepository.findByUserAuthEntityUniqueUsername(uniqueStudentUsername));
     }
 
+    @Transactional
     public IDTOUser getUserInformation(String uniqueTeacherUsername, boolean isTeacher) {
         return isTeacher ? getTeacherInformation(uniqueTeacherUsername) : getStudentInformation(uniqueTeacherUsername);
     }

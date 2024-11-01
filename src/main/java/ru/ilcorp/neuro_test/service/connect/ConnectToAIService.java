@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import ru.ilcorp.neuro_test.model.dto.ai.dtoRequestAI;
 import ru.ilcorp.neuro_test.model.dto.ai.dtoResponseAI;
@@ -29,7 +30,7 @@ public class ConnectToAIService {
     public ConnectToAIService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
-
+    @Transactional
     public dtoResponseAI modellingStartFromFile(List<dtoRequestAI> requestAI) {
         try {
             // Динамическое создание путей
@@ -53,23 +54,23 @@ public class ConnectToAIService {
             return null;
         }
     }
-
+    @Transactional
     // Метод для записи данных в input.json
     private void writeInputFile(List<dtoRequestAI> requestAI, String inputFilePath) throws IOException {
         objectMapper.writeValue(new File(inputFilePath), requestAI);
     }
-
+    @Transactional
     // Метод для запуска Python-скрипта
     private void runPythonScript(String scriptPath) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder("python3", scriptPath);
         processBuilder.start().waitFor();
     }
-
+    @Transactional
     // Метод для чтения данных из output.json и преобразования их в объект dtoResponseAI
     private dtoResponseAI readOutputFile(String outputFilePath) throws IOException {
         return objectMapper.readValue(new File(outputFilePath), dtoResponseAI.class);
     }
-
+    @Transactional
     public dtoResponseAI modelLaunch(List<dtoRequestAI> requestAI) {
         return restTemplate.postForObject(URL_AI, requestAI, dtoResponseAI.class);
     }

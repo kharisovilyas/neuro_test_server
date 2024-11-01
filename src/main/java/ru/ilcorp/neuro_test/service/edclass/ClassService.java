@@ -3,6 +3,7 @@ package ru.ilcorp.neuro_test.service.edclass;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ilcorp.neuro_test.model.dto.classroom.dtoClass;
 import ru.ilcorp.neuro_test.model.entity.classroom.ClassEntity;
 import ru.ilcorp.neuro_test.model.entity.user.StudentUserEntity;
@@ -25,18 +26,18 @@ public class ClassService {
 
     @Autowired
     private StudentUserRepository studentUserRepository;
-
+    @Transactional
     public String createClass(dtoClass edClass, String uniqueTeacherUsername) {
         TeacherUserEntity teacherUserEntity = teacherUserRepository.findByUserAuthEntityUniqueUsername(uniqueTeacherUsername);
         ClassEntity classEntity = new ClassEntity(edClass, teacherUserEntity);
         classRepository.save(classEntity);
         return classEntity.getClassroomCode().getAccessCode();
     }
-
+    @Transactional
     public List<dtoClass> getAllClasses(String uniqueTeacherUsername) {
         return classRepository.findAllByTeacherUserEntityUserAuthEntityUniqueUsername(uniqueTeacherUsername).stream().map(dtoClass::new).collect(Collectors.toList());
     }
-
+    @Transactional
     public String updateAccessCode(dtoClass edClass) {
         if (edClass.getClassId() == null) {
             throw new IncorrectRequestException("Отправлен пустой запрос");
@@ -46,7 +47,7 @@ public class ClassService {
         classRepository.save(classEntity);
         return classEntity.getClassroomCode().getAccessCode();
     }
-
+    @Transactional
     public void joinToClass(String accessCode, String uniqueStudentUsername) {
         StudentUserEntity studentUserEntity = studentUserRepository.findByUserAuthEntityUniqueUsername(uniqueStudentUsername);
 
