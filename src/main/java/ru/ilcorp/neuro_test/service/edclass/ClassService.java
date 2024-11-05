@@ -12,7 +12,7 @@ import ru.ilcorp.neuro_test.repositories.classroom.edClassRepository;
 import ru.ilcorp.neuro_test.repositories.user.StudentUserRepository;
 import ru.ilcorp.neuro_test.repositories.user.TeacherUserRepository;
 import ru.ilcorp.neuro_test.utils.exeptions.IncorrectRequestException;
-import ru.ilcorp.neuro_test.utils.exeptions.user.IncorrectAccessCodeException;
+import ru.ilcorp.neuro_test.utils.exeptions.user.InvalidClassAccessCodeException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,11 +38,11 @@ public class ClassService {
         return classRepository.findAllByTeacherUserEntityUserAuthEntityUniqueUsername(uniqueTeacherUsername).stream().map(dtoClass::new).collect(Collectors.toList());
     }
     @Transactional
-    public String updateAccessCode(dtoClass edClass) {
-        if (edClass.getClassId() == null) {
+    public String updateAccessCode(Long classId) {
+        if (classId == null) {
             throw new IncorrectRequestException("Отправлен пустой запрос");
         }
-        ClassEntity classEntity = classRepository.findById(edClass.getClassId()).orElseThrow(() -> new EntityNotFoundException("Такого класса не существует"));
+        ClassEntity classEntity = classRepository.findById(classId).orElseThrow(() -> new EntityNotFoundException("Такого класса не существует"));
         classEntity.updateClassroomCode();
         classRepository.save(classEntity);
         return classEntity.getClassroomCode().getAccessCode();
@@ -58,9 +58,13 @@ public class ClassService {
                 //Выбираем только те записи в которых есть accessCode равный отправленному пользователем
                 .filter(it -> it.getClassroomCode().getAccessCode().equals(accessCode))
                 //Выбрасываем ошибку в случае если нет такого кода доступа к уч классу
-                .findAny().orElseThrow(() -> new IncorrectAccessCodeException("Некорректный код для входа в класс"));
+                .findAny().orElseThrow(() -> new InvalidClassAccessCodeException("Некорректный код для входа в класс"));
 
         studentUserEntity.setClassEntity(classEntity);
         studentUserRepository.save(studentUserEntity);
+    }
+
+    public String sendUpdateAccessCode(Long classId) {
+        return null;
     }
 }

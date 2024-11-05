@@ -18,8 +18,6 @@ public class ExtensiveTestingEntity {
     private Long testingId;
     @Column(name = "title")
     private String title;
-    @Column(name = "subject")
-    private String subject;
     @Column(name = "due_data")
     private LocalDateTime dueDate;
     @Column(name = "create_at")
@@ -44,9 +42,8 @@ public class ExtensiveTestingEntity {
         assignments = assignments.stream().peek(assignmentEntity -> assignmentEntity.setExtensiveTestingEntity(this)).collect(Collectors.toList());
         this.title = testing.getTitle();
         this.title = testing.getTitle();
-        this.subject = testing.getSubject();
         this.dueDate = testing.getDueDate();
-        this.createdAt = testing.getCreatedAt();
+        this.createdAt = LocalDateTime.now();
         this.lateSubmission = testing.getLateSubmission();
         this.teacherUserEntity = teacherUserEntity;
         this.classEntity = edClass;
@@ -67,14 +64,6 @@ public class ExtensiveTestingEntity {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
     }
 
     public List<AssignmentEntity> getAssignmentEntities() {

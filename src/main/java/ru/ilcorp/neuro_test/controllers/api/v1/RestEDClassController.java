@@ -20,6 +20,7 @@ public class RestEDClassController {
     @Autowired
     private ClassService classService;
 
+    @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @PostMapping("/add")
     @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью учитель
     public ResponseEntity<String> createClass(@RequestBody dtoClass classDto)
@@ -30,14 +31,25 @@ public class RestEDClassController {
         return ResponseEntity.ok().body(classService.createClass(classDto, uniqueTeacherUsername));
     }
 
+    @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @GetMapping("/update/code")
     @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью учитель
-    public ResponseEntity<String> updateClassAccessCode(@RequestBody dtoClass classDto)
+    public ResponseEntity<String> updateClassAccessCode(@RequestBody Long classId)
             throws IncorrectTokenException
     {
-        return ResponseEntity.ok().body(classService.updateAccessCode(classDto));
+        return ResponseEntity.ok().body(classService.updateAccessCode(classId));
     }
 
+    @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
+    @GetMapping("/send/code")
+    @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью учитель
+    public ResponseEntity<String> sendAccessCodeForStudents(@RequestBody Long classId)
+            throws IncorrectTokenException
+    {
+        return ResponseEntity.ok().body(classService.sendUpdateAccessCode(classId));
+    }
+
+    @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @GetMapping("/get/all")
     @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью учитель
     public ResponseEntity<List<dtoClass>> getAllClasses()
@@ -48,6 +60,7 @@ public class RestEDClassController {
         return ResponseEntity.ok().body(classService.getAllClasses(uniqueTeacherUsername));
     }
 
+    @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @PostMapping("/join")
     @PreAuthorize("hasRole('STUDENT')") // Только для пользователей с ролью студент
     public ResponseEntity<dtoMessage> joinToClass(@RequestBody String accessCode)

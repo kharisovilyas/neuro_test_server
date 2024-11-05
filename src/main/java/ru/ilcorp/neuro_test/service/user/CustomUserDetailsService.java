@@ -1,4 +1,4 @@
-package ru.ilcorp.neuro_test.service.auth;
+package ru.ilcorp.neuro_test.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

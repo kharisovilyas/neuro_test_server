@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.ilcorp.neuro_test.utils.exeptions.user.AuthenticationException;
-import ru.ilcorp.neuro_test.utils.exeptions.user.IncorrectAccessCodeException;
+import ru.ilcorp.neuro_test.utils.exeptions.user.InvalidClassAccessCodeException;
 import ru.ilcorp.neuro_test.utils.exeptions.user.IncorrectTokenException;
 import ru.ilcorp.neuro_test.utils.exeptions.user.UserAlreadyExistsException;
 
@@ -19,7 +19,7 @@ public class ApiValidationExceptionHandler {
 
     @ExceptionHandler(value = {
             UserAlreadyExistsException.class,
-            IncorrectAccessCodeException.class,
+            InvalidClassAccessCodeException.class,
             AuthenticationException.class,
             EntityNotFoundException.class,
             IncorrectTokenException.class

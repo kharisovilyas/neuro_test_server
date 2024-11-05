@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 public class dtoTesting {
     private Long testingId;
     private String title;
-    private String subject;
     private LocalDateTime dueDate;
     private LocalDateTime createdAt;
     private Integer leadTime;
+    private Integer remainingTime;
     private Boolean lateSubmission;
     private List<dtoAssignment> assignments;
     private dtoAssignmentResultAI assignmentResult;
@@ -29,11 +29,11 @@ public class dtoTesting {
     public dtoTesting(ExtensiveTestingEntity extensiveTestingEntity) {
         this.testingId = extensiveTestingEntity.getTestingId();
         this.title = extensiveTestingEntity.getTitle();
-        this.subject = extensiveTestingEntity.getSubject();
         this.dueDate = extensiveTestingEntity.getDueDate();
         this.createdAt = extensiveTestingEntity.getCreatedAt();
         this.quantityAssignment = extensiveTestingEntity.getAssignmentEntities().size();
         this.leadTime = Duration.between(extensiveTestingEntity.getDueDate(), extensiveTestingEntity.getCreatedAt()).toMinutesPart();
+        this.remainingTime = Duration.between(extensiveTestingEntity.getDueDate(), LocalDateTime.now()).toMinutesPart();
         this.assignments = extensiveTestingEntity.getAssignmentEntities().stream().map(dtoAssignment::new).collect(Collectors.toList());
         this.lateSubmission = extensiveTestingEntity.getLateSubmission();
         this.teacher = new dtoTeacherSummary(extensiveTestingEntity.getTeacherUserEntity());
@@ -56,14 +56,6 @@ public class dtoTesting {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
     }
 
     public LocalDateTime getDueDate() {
@@ -89,8 +81,6 @@ public class dtoTesting {
     public void setAssignments(List<dtoAssignment> assignments) {
         this.assignments = assignments;
     }
-
-
 
     public dtoClass getEdClass() {
         return edClass;
@@ -130,5 +120,13 @@ public class dtoTesting {
 
     public void setAssignmentResult(dtoAssignmentResultAI assignmentResult) {
         this.assignmentResult = assignmentResult;
+    }
+
+    public Integer getRemainingTime() {
+        return remainingTime;
+    }
+
+    public void setRemainingTime(Integer remainingTime) {
+        this.remainingTime = remainingTime;
     }
 }

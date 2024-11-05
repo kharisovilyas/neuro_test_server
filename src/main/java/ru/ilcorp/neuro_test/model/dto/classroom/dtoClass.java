@@ -1,10 +1,9 @@
 package ru.ilcorp.neuro_test.model.dto.classroom;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.*;
 import ru.ilcorp.neuro_test.model.dto.user.dtoTeacherUserInformation;
 import ru.ilcorp.neuro_test.model.entity.classroom.ClassEntity;
-import ru.ilcorp.neuro_test.model.entity.user.TeacherUserEntity;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class dtoClass {
     private Long classId;

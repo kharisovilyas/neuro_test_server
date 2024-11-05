@@ -13,13 +13,14 @@ import ru.ilcorp.neuro_test.service.assignment.AssignmentService;
 import ru.ilcorp.neuro_test.utils.exeptions.asssignment.LateSubmissionException;
 import ru.ilcorp.neuro_test.utils.exeptions.user.IncorrectTokenException;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/assignment")
 public class RestAssignmentController {
     @Autowired private AssignmentService assignmentService;
-
+    @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @PostMapping("/add")
     @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью учитель
     public ResponseEntity<dtoMessage> addAssignment(@RequestBody dtoTesting testing) throws EntityNotFoundException, IncorrectTokenException {
@@ -29,29 +30,23 @@ public class RestAssignmentController {
         return ResponseEntity.ok().body(new dtoMessage("SUCCESS", "Тестирование успешно загружено"));
     }
 
-    @GetMapping("/get/byApi")
-    @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью учитель
-    public ResponseEntity<dtoApiGIAResponse> addAssignment() throws EntityNotFoundException, IncorrectTokenException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ResponseEntity.ok().body(assignmentService.getTestingFromGIA());
-    }
-
-    @GetMapping("/all/byClass")
+    @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
+    @GetMapping("/all")
     @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью учитель
     public ResponseEntity<List<dtoTesting>> getAllByClass(@RequestBody Long classId) throws EntityNotFoundException, IncorrectTokenException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uniqueTeacherUsername = authentication.getName();
         return ResponseEntity.ok().body(assignmentService.getAllByClass(classId, uniqueTeacherUsername));
     }
-
-    @GetMapping("/all")
+    @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
+    @GetMapping("/all/byClass")
     @PreAuthorize("hasRole('STUDENT')") // Только для пользователей с ролью учитель
     public ResponseEntity<List<dtoTesting>> getAllByStudent() throws EntityNotFoundException, IncorrectTokenException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uniqueTeacherUsername = authentication.getName();
         return ResponseEntity.ok().body(assignmentService.getAllByClass(uniqueTeacherUsername));
     }
-
+    @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @PostMapping("/answer/add")
     @PreAuthorize("hasRole('STUDENT')") // Только для пользователей с ролью студент
     public ResponseEntity<dtoMessage> uploadStudentAnswer(@RequestBody dtoStudentAnswer studentAnswer)
@@ -61,7 +56,7 @@ public class RestAssignmentController {
         String uniqueStudentUsername = authentication.getName();
         return ResponseEntity.ok().body(assignmentService.addStudentAnswer(studentAnswer, uniqueStudentUsername));
     }
-
+    @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @PostMapping("/answer")
     @PreAuthorize("hasRole('STUDENT')") // Только для пользователей с ролью студент
     public ResponseEntity<dtoTestingResult> uploadStudentAnswerAssignment(@RequestBody dtoTesting testing)
@@ -70,5 +65,15 @@ public class RestAssignmentController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uniqueStudentUsername = authentication.getName();
         return ResponseEntity.ok().body(assignmentService.uploadStudentAnswerForAssignment(testing, uniqueStudentUsername));
+    }
+
+    @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
+    @PostMapping("/generic")
+    @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью студент
+    public ResponseEntity<dtoApiGIAResponse> genericAssignment()
+            throws EntityNotFoundException, IncorrectTokenException, LateSubmissionException, IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String uniqueStudentUsername = authentication.getName();
+        return ResponseEntity.ok().body(assignmentService.genericAssignment(uniqueStudentUsername));
     }
 }

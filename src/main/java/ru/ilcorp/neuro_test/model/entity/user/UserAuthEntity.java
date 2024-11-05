@@ -11,7 +11,6 @@ public class UserAuthEntity {
     @Column(name = "id_user_auth")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userAuthId;
-
     //TODO: вставлять email - он уже уникален так как
     @Column(name = "unique_username", unique = true)
     private String uniqueUsername;
@@ -21,11 +20,17 @@ public class UserAuthEntity {
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     private Set<String> roles; // Роли пользователя
+    @Column(name = "confirm_email")
+    private Boolean confirmEmail;
+    @Embedded
+    private UserAccessCode userAccessCode;
+
 
     public UserAuthEntity(String email, String encode, Set<String> roles) {
         this.uniqueUsername = email;
         this.password = encode;
         this.roles = roles;
+        this.confirmEmail = false;
     }
 
     public UserAuthEntity(){}
@@ -60,5 +65,21 @@ public class UserAuthEntity {
 
     public void setRoles(Set<String> roles) {
         this.roles = roles;
+    }
+
+    public UserAccessCode getUserAccessCode() {
+        return userAccessCode;
+    }
+
+    public void setUserAccessCode(UserAccessCode userAccessCode) {
+        this.userAccessCode = userAccessCode;
+    }
+
+    public Boolean getConfirmEmail() {
+        return confirmEmail;
+    }
+
+    public void setConfirmEmail(Boolean confirmEmail) {
+        this.confirmEmail = confirmEmail;
     }
 }
