@@ -27,7 +27,6 @@ import ru.ilcorp.neuro_test.repositories.classroom.edClassRepository;
 import ru.ilcorp.neuro_test.repositories.user.StudentUserRepository;
 import ru.ilcorp.neuro_test.repositories.user.TeacherUserRepository;
 import ru.ilcorp.neuro_test.service.connect.ConnectToAIService;
-import ru.ilcorp.neuro_test.utils.exeptions.ai.EmptyResponseFromAIException;
 import ru.ilcorp.neuro_test.utils.exeptions.asssignment.LateSubmissionException;
 
 import java.io.IOException;
@@ -76,7 +75,7 @@ public class AssignmentService {
     }
 
     @Transactional
-    public List<dtoTesting> getAllByClass(Long classId, String uniqueTeacherUsername) {
+    public List<dtoTesting> getAllForStudent(Long classId, String uniqueTeacherUsername) {
         return testingRepository.findAllByTeacherUserEntityUserAuthEntityUniqueUsernameAndClassEntityClassId(uniqueTeacherUsername, classId)
                 .stream()
                 .map(dtoTesting::new)
@@ -84,7 +83,7 @@ public class AssignmentService {
     }
 
     @Transactional
-    public List<dtoTesting> getAllByClass(String uniqueStudentUsername) {
+    public List<dtoTesting> getAllForStudent(String uniqueStudentUsername) {
         Long classId = studentUserRepository.findByUserAuthEntityUniqueUsername(uniqueStudentUsername).getClassEntity().getClassId();
         return testingRepository.findAllByClassEntityClassId(classId)
                 .stream()

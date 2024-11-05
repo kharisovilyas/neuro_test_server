@@ -33,18 +33,18 @@ public class RestAssignmentController {
     @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @GetMapping("/all")
     @PreAuthorize("hasRole('STUDENT')") // Только для пользователей с ролью учитель
-    public ResponseEntity<List<dtoTesting>> getAllByClass(@RequestBody Long classId) throws EntityNotFoundException, IncorrectTokenException {
+    public ResponseEntity<List<dtoTesting>> getAllForStudent() throws EntityNotFoundException, IncorrectTokenException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String uniqueTeacherUsername = authentication.getName();
-        return ResponseEntity.ok().body(assignmentService.getAllByClass(classId, uniqueTeacherUsername));
+        String uniqueStudentUsername = authentication.getName();
+        return ResponseEntity.ok().body(assignmentService.getAllForStudent(uniqueStudentUsername));
     }
     @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @GetMapping("/all/byClass")
     @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью учитель
-    public ResponseEntity<List<dtoTesting>> getAllByStudent() throws EntityNotFoundException, IncorrectTokenException {
+    public ResponseEntity<List<dtoTesting>> getAllByTeacher(@RequestBody Long classId) throws EntityNotFoundException, IncorrectTokenException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uniqueTeacherUsername = authentication.getName();
-        return ResponseEntity.ok().body(assignmentService.getAllByClass(uniqueTeacherUsername));
+        return ResponseEntity.ok().body(assignmentService.getAllForStudent(classId, uniqueTeacherUsername));
     }
     @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @PostMapping("/answer/add")
