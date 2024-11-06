@@ -1,18 +1,25 @@
 package ru.ilcorp.neuro_test.model.dto.edclass;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import ru.ilcorp.neuro_test.model.dto.user.dtoStudentSummary;
 import ru.ilcorp.neuro_test.model.dto.user.dtoTeacherUserInformation;
 import ru.ilcorp.neuro_test.model.entity.classroom.ClassEntity;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class dtoClass {
     private Long classId;
-    private String className;
+    private String name;
     private dtoTeacherUserInformation teacher;
+    private List<dtoStudentSummary> students;
+    private Integer quantity;
 
     public dtoClass(ClassEntity classEntity) {
-        this.className = classEntity.getClassName();
+        this.name = classEntity.getClassName();
         this.classId = classEntity.getClassId();
+        this.students = classEntity.getStudentUserEntities().stream().map(dtoStudentSummary::new).collect(Collectors.toList());
     }
 
     public dtoClass() {
@@ -26,12 +33,12 @@ public class dtoClass {
         this.classId = classId;
     }
 
-    public String getClassName() {
-        return className;
+    public String getName() {
+        return name;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public dtoTeacherUserInformation getTeacher() {
@@ -40,5 +47,21 @@ public class dtoClass {
 
     public void setTeacher(dtoTeacherUserInformation teacher) {
         this.teacher = teacher;
+    }
+
+    public List<dtoStudentSummary> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<dtoStudentSummary> students) {
+        this.students = students;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

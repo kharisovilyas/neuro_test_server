@@ -14,7 +14,7 @@ public class dtoStudentUserInformation extends dtoUser implements IDTOEntity, ID
     }
 
     public dtoStudentUserInformation(StudentUserEntity studentUserEntity) {
-        super.setIsTeacher(studentUserEntity.getTeacher());
+        super.setIsTeacher(Boolean.valueOf(studentUserEntity.getTeacher()));
         super.setEmail(studentUserEntity.getEmail());
         super.setNameOfUser(studentUserEntity.getNameOfUser());
         super.setSurnameOfUser(studentUserEntity.getSurnameOfUser());
