@@ -18,7 +18,8 @@ public class dtoStudentUserInformation extends dtoUser implements IDTOEntity, ID
         super.setEmail(studentUserEntity.getEmail());
         super.setNameOfUser(studentUserEntity.getNameOfUser());
         super.setSurnameOfUser(studentUserEntity.getSurnameOfUser());
-        this.edCLass = new dtoClass(studentUserEntity.getClassEntity());
+        this.edCLass = (studentUserEntity.getClassEntity() == null) ?
+                null : new dtoClass(studentUserEntity.getClassEntity());
     }
 
     public String getClassRoomCode() {
