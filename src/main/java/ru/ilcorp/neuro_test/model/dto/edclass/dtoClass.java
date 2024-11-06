@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class dtoClass {
     private Long classId;
     private String name;
+    private String description;
     private dtoTeacherUserInformation teacher;
     private List<dtoStudentSummary> students;
     private Integer quantity;
@@ -20,6 +21,7 @@ public class dtoClass {
         this.name = classEntity.getClassName();
         this.classId = classEntity.getClassId();
         this.students = classEntity.getStudentUserEntities().stream().map(dtoStudentSummary::new).collect(Collectors.toList());
+        this.description = classEntity.getClassDescription();
     }
 
     public dtoClass() {
@@ -63,5 +65,13 @@ public class dtoClass {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

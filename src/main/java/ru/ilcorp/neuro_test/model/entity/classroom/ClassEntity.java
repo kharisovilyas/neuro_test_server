@@ -28,6 +28,9 @@ public class ClassEntity {
     @OneToMany(mappedBy = "classEntity")
     private List<ExtensiveTestingEntity> extensiveTestingEntities;
 
+    @Column(name = "class_description")
+    private String classDescription;
+
     public ClassEntity() {
     }
 
@@ -35,6 +38,7 @@ public class ClassEntity {
         this.className = edClass.getName();
         this.classroomCode = new ClassroomCode();
         this.teacherUserEntity = teacherUserEntity;
+        this.classDescription = edClass.getDescription();
     }
 
     public Long getClassId() {
@@ -91,5 +95,13 @@ public class ClassEntity {
 
     public void setExtensiveTestingEntity(ExtensiveTestingEntity extensiveTestingEntity) {
         this.extensiveTestingEntities.add(extensiveTestingEntity);
+    }
+
+    public String getClassDescription() {
+        return classDescription;
+    }
+
+    public void setClassDescription(String classDescription) {
+        this.classDescription = classDescription;
     }
 }
