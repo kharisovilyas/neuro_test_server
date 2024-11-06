@@ -23,7 +23,9 @@ public class RestAssignmentController {
     @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @PostMapping("/add")
     @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью учитель
-    public ResponseEntity<dtoMessage> addAssignment(@RequestBody dtoTesting testing) throws EntityNotFoundException, IncorrectTokenException {
+    public ResponseEntity<dtoMessage> addAssignment(@RequestBody dtoTesting testing)
+            throws EntityNotFoundException, IncorrectTokenException
+    {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uniqueTeacherUsername = authentication.getName();
         assignmentService.addTesting(testing, uniqueTeacherUsername);

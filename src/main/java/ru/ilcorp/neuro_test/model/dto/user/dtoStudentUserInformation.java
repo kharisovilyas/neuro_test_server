@@ -8,12 +8,17 @@ import ru.ilcorp.neuro_test.model.entity.user.StudentUserEntity;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class dtoStudentUserInformation extends dtoUser implements IDTOEntity, IDTOUser {
     private String classRoomCode;
+    private dtoClass edCLass;
 
     public dtoStudentUserInformation() {
     }
 
-    public dtoStudentUserInformation(StudentUserEntity byUserAuthEntityUniqueUsername) {
-
+    public dtoStudentUserInformation(StudentUserEntity studentUserEntity) {
+        super.setIsTeacher(studentUserEntity.getTeacher());
+        super.setEmail(studentUserEntity.getEmail());
+        super.setNameOfUser(studentUserEntity.getNameOfUser());
+        super.setSurnameOfUser(studentUserEntity.getSurnameOfUser());
+        this.edCLass = new dtoClass(studentUserEntity.getClassEntity());
     }
 
     public String getClassRoomCode() {
@@ -22,5 +27,13 @@ public class dtoStudentUserInformation extends dtoUser implements IDTOEntity, ID
 
     public void setClassRoomCode(String classRoomCode) {
         this.classRoomCode = classRoomCode;
+    }
+
+    public dtoClass getEdCLass() {
+        return edCLass;
+    }
+
+    public void setEdCLass(dtoClass edCLass) {
+        this.edCLass = edCLass;
     }
 }

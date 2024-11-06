@@ -28,8 +28,8 @@ public class ApiValidationExceptionHandler {
     @ResponseBody
     protected Map<String, Object> handleBadRequest(RuntimeException ex) {
         Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("STATUS", "ERROR");
-        errorResponse.put("MESSAGE", ex.getMessage());
+        errorResponse.put("status", "Ошибка");
+        errorResponse.put("message", ex.getMessage());
         return errorResponse;
     }
 }

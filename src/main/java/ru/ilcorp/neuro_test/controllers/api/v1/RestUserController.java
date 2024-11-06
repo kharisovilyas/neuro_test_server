@@ -29,7 +29,7 @@ public class RestUserController {
     @GetMapping("/")
     public ResponseEntity<IDTOUser> getUserInform() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String uniqueTeacherUsername = authentication.getName();
+        String uniqueUsername = authentication.getName();
         // Получение ролей пользователя
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
@@ -37,7 +37,7 @@ public class RestUserController {
         boolean isTeacher = authorities.stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_TEACHER"));
 
-        return ResponseEntity.ok().body(userService.getUserInformation(uniqueTeacherUsername, isTeacher));
+        return ResponseEntity.ok().body(userService.getUserInformation(uniqueUsername, isTeacher));
     }
 
     @CrossOrigin(origins = {"http://localhost:3000", "194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})

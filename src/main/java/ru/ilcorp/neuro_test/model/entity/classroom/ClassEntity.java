@@ -32,7 +32,6 @@ public class ClassEntity {
     }
 
     public ClassEntity(dtoClass edClass, TeacherUserEntity teacherUserEntity) {
-        this.classId = edClass.getClassId();
         this.className = edClass.getClassName();
         this.classroomCode = new ClassroomCode();
         this.teacherUserEntity = teacherUserEntity;
