@@ -33,7 +33,7 @@ public class RestEDClassController {
     @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @GetMapping("/update/code")
     @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью учитель
-    public ResponseEntity<String> updateClassAccessCode(@RequestBody Long classId)
+    public ResponseEntity<String> updateClassAccessCode(@RequestParam Long classId)
             throws IncorrectTokenException
     {
         return ResponseEntity.ok().body(classService.updateAccessCode(classId));
