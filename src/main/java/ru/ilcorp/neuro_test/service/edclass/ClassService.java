@@ -4,7 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ilcorp.neuro_test.model.dto.classroom.dtoClass;
+import ru.ilcorp.neuro_test.model.dto.edclass.dtoClass;
 import ru.ilcorp.neuro_test.model.entity.classroom.ClassEntity;
 import ru.ilcorp.neuro_test.model.entity.user.StudentUserEntity;
 import ru.ilcorp.neuro_test.model.entity.user.TeacherUserEntity;

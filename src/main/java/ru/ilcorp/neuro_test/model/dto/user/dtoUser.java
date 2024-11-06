@@ -1,6 +1,7 @@
 package ru.ilcorp.neuro_test.model.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class dtoUser {
     private Long userId;
+    @JsonProperty("isTeacher")
     private Boolean isTeacher;
     private String nameOfUser;
     private String surnameOfUser;

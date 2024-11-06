@@ -1,7 +1,7 @@
 package ru.ilcorp.neuro_test.model.entity.classroom;
 
 import jakarta.persistence.*;
-import ru.ilcorp.neuro_test.model.dto.classroom.dtoClass;
+import ru.ilcorp.neuro_test.model.dto.edclass.dtoClass;
 import ru.ilcorp.neuro_test.model.entity.assignment.ExtensiveTestingEntity;
 import ru.ilcorp.neuro_test.model.entity.user.StudentUserEntity;
 import ru.ilcorp.neuro_test.model.entity.user.TeacherUserEntity;

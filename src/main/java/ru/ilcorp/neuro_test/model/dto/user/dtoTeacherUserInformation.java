@@ -3,7 +3,7 @@ package ru.ilcorp.neuro_test.model.dto.user;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ru.ilcorp.neuro_test.model.dto.IDTOEntity;
 import ru.ilcorp.neuro_test.model.dto.assignment.dtoTesting;
-import ru.ilcorp.neuro_test.model.dto.classroom.dtoClass;
+import ru.ilcorp.neuro_test.model.dto.edclass.dtoClass;
 import ru.ilcorp.neuro_test.model.entity.user.TeacherUserEntity;
 
 import java.util.List;

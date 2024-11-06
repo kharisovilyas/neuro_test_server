@@ -2,9 +2,8 @@ package ru.ilcorp.neuro_test.model.dto.assignment;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ru.ilcorp.neuro_test.model.dto.ai.dtoAssignmentResultAI;
-import ru.ilcorp.neuro_test.model.dto.classroom.dtoClass;
+import ru.ilcorp.neuro_test.model.dto.edclass.dtoClass;
 import ru.ilcorp.neuro_test.model.dto.user.dtoTeacherSummary;
-import ru.ilcorp.neuro_test.model.dto.user.dtoTeacherUserInformation;
 import ru.ilcorp.neuro_test.model.entity.assignment.ExtensiveTestingEntity;
 
 import java.time.Duration;

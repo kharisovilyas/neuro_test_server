@@ -1,4 +1,4 @@
-package ru.ilcorp.neuro_test.model.dto.classroom;
+package ru.ilcorp.neuro_test.model.dto.edclass;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ru.ilcorp.neuro_test.model.dto.user.dtoTeacherUserInformation;
