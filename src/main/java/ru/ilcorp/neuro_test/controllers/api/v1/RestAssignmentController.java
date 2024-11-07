@@ -51,6 +51,7 @@ public class RestAssignmentController {
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_TEACHER"));
         return ResponseEntity.ok().body(assignmentService.getAllForUser(isTeacher, uniqueUsername, classId));
     }
+
     @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @PostMapping("/answer/add")
     @PreAuthorize("hasRole('STUDENT')") // Только для пользователей с ролью студент
