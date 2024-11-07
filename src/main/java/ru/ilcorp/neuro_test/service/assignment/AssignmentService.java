@@ -74,7 +74,7 @@ public class AssignmentService {
     }
 
     @Transactional
-    public List<dtoTesting> getAllForTeacher(Long classId, String uniqueTeacherUsername) {
+    public List<dtoTesting> getAllForStudent(Long classId, String uniqueTeacherUsername) {
         return testingRepository.findAllByTeacherUserEntityUserAuthEntityUniqueUsernameAndClassEntityClassId(uniqueTeacherUsername, classId)
                 .stream()
                 .map(dtoTesting::new)
@@ -82,8 +82,10 @@ public class AssignmentService {
     }
 
     @Transactional
-    public List<dtoTesting> getAllForTeacher(String uniqueStudentUsername) {
-        Long classId = studentUserRepository.findByUserAuthEntityUniqueUsername(uniqueStudentUsername).getClassEntity().getClassId();
+    public List<dtoTesting> getAllForTeacher(String uniqueStudentUsername) throws NullPointerException {
+        ClassEntity classEntity = studentUserRepository.findByUserAuthEntityUniqueUsername(uniqueStudentUsername).getClassEntity();
+        if (classEntity == null) throw new NullPointerException("Вы не создали ни один класс");
+        Long classId = classEntity.getClassId();
         return testingRepository.findAllByClassEntityClassId(classId)
                 .stream()
                 .map(dtoTesting::new)
@@ -191,6 +193,6 @@ public class AssignmentService {
 
     @Transactional
     public List<dtoTesting> getAllForUser(boolean isTeacher, String uniqueUsername, Long classId) {
-        return isTeacher ? getAllForTeacher(classId, uniqueUsername) : getAllForTeacher(uniqueUsername);
+        return isTeacher ? getAllForStudent(classId, uniqueUsername) : getAllForTeacher(uniqueUsername);
     }
 }
