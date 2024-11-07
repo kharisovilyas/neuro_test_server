@@ -46,7 +46,6 @@ public class AssignmentService {
     private edClassRepository edClassRepository;
     @Autowired
     private StudentUserRepository studentUserRepository;
-
     @Autowired
     private StudentAnswerRepository studentAnswerRepository;
 
@@ -75,7 +74,7 @@ public class AssignmentService {
     }
 
     @Transactional
-    public List<dtoTesting> getAllForStudent(Long classId, String uniqueTeacherUsername) {
+    public List<dtoTesting> getAllForTeacher(Long classId, String uniqueTeacherUsername) {
         return testingRepository.findAllByTeacherUserEntityUserAuthEntityUniqueUsernameAndClassEntityClassId(uniqueTeacherUsername, classId)
                 .stream()
                 .map(dtoTesting::new)
@@ -83,7 +82,7 @@ public class AssignmentService {
     }
 
     @Transactional
-    public List<dtoTesting> getAllForStudent(String uniqueStudentUsername) {
+    public List<dtoTesting> getAllForTeacher(String uniqueStudentUsername) {
         Long classId = studentUserRepository.findByUserAuthEntityUniqueUsername(uniqueStudentUsername).getClassEntity().getClassId();
         return testingRepository.findAllByClassEntityClassId(classId)
                 .stream()
@@ -188,5 +187,10 @@ public class AssignmentService {
             }
         }
         return giaResponse;
+    }
+
+    @Transactional
+    public List<dtoTesting> getAllForUser(boolean isTeacher, String uniqueUsername, Long classId) {
+        return isTeacher ? getAllForTeacher(classId, uniqueUsername) : getAllForTeacher(uniqueUsername);
     }
 }
