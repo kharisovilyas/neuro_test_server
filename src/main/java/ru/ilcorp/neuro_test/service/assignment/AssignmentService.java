@@ -193,6 +193,6 @@ public class AssignmentService {
 
     @Transactional
     public List<dtoTesting> getAllForUser(boolean isTeacher, String uniqueUsername, Long classId) {
-        return isTeacher ? getAllForStudent(classId, uniqueUsername) : getAllForTeacher(uniqueUsername);
+        return isTeacher ? getAllForTeacher(uniqueUsername) : getAllForStudent(classId, uniqueUsername);
     }
 }
