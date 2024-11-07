@@ -14,7 +14,7 @@ public class dtoTeacherUserInformation extends dtoUser implements IDTOEntity, ID
     private List<dtoTesting> testings;
 
     public dtoTeacherUserInformation(TeacherUserEntity teacherUserEntity) {
-        this.testings = teacherUserEntity.getTestingEntities().stream().map(dtoTesting::new).collect(Collectors.toList());
+        this.edClasses = teacherUserEntity.getClassEntities().stream().map(dtoClass::new).collect(Collectors.toList());
         super.setIsTeacher(teacherUserEntity.getTeacher());
         super.setEmail(teacherUserEntity.getEmail());
         super.setNameOfUser(teacherUserEntity.getNameOfUser());
