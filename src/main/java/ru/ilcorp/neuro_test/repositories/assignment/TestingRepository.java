@@ -12,4 +12,6 @@ public interface TestingRepository extends JpaRepository<ExtensiveTestingEntity,
     List<ExtensiveTestingEntity> findAllByTeacherUserEntityUserAuthEntityUniqueUsernameAndClassEntityClassId(String uniqueTeacherUsername, Long classId);
 
     List<ExtensiveTestingEntity> findAllByClassEntityClassId(Long classId);
+
+    List<ExtensiveTestingEntity> findAllByTeacherUserEntityUserAuthEntityUniqueUsername(String uniqueTeacherUsername);
 }

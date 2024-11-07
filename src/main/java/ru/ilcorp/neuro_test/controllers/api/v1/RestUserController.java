@@ -25,7 +25,7 @@ public class RestUserController {
     private UserService userService;
 
     @CrossOrigin(origins = {"http://localhost:3000", "194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<IDTOUser> getUserInform() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uniqueUsername = authentication.getName();

@@ -37,10 +37,7 @@ public class RestAssignmentController {
     @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @GetMapping("/all")
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER')") // Только для пользователей с ролью учитель
-    public ResponseEntity<List<dtoTesting>> getAll(
-            @RequestParam(value = "classId", required = false)
-            Long classId
-    ) throws EntityNotFoundException, IncorrectTokenException {
+    public ResponseEntity<List<dtoTesting>> getAll() throws EntityNotFoundException, IncorrectTokenException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uniqueUsername = authentication.getName();
         // Получение ролей пользователя
@@ -49,7 +46,8 @@ public class RestAssignmentController {
         // Пример: Проверка, есть ли у пользователя роль "ROLE_TEACHER"
         boolean isTeacher = authorities.stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_TEACHER"));
-        return ResponseEntity.ok().body(assignmentService.getAllForUser(isTeacher, uniqueUsername, classId));
+
+        return ResponseEntity.ok().body(assignmentService.getAllForUser(isTeacher, uniqueUsername));
     }
 
     @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})

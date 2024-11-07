@@ -74,8 +74,8 @@ public class AssignmentService {
     }
 
     @Transactional
-    public List<dtoTesting> getAllForTeacher(Long classId, String uniqueTeacherUsername) {
-        return testingRepository.findAllByTeacherUserEntityUserAuthEntityUniqueUsernameAndClassEntityClassId(uniqueTeacherUsername, classId)
+    public List<dtoTesting> getAllForTeacher(String uniqueTeacherUsername) {
+        return testingRepository.findAllByTeacherUserEntityUserAuthEntityUniqueUsername(uniqueTeacherUsername)
                 .stream()
                 .map(dtoTesting::new)
                 .collect(Collectors.toList());
@@ -192,7 +192,7 @@ public class AssignmentService {
     }
 
     @Transactional
-    public List<dtoTesting> getAllForUser(boolean isTeacher, String uniqueUsername, Long classId) {
-        return isTeacher ? getAllForTeacher(classId, uniqueUsername) : getAllForStudent(uniqueUsername);
+    public List<dtoTesting> getAllForUser(boolean isTeacher, String uniqueUsername) {
+        return isTeacher ? getAllForTeacher(uniqueUsername) : getAllForStudent(uniqueUsername);
     }
 }
