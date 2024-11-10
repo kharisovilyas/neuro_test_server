@@ -2,6 +2,7 @@ package ru.ilcorp.neuro_test.model.entity.assignment.result;
 
 import jakarta.persistence.*;
 import ru.ilcorp.neuro_test.model.dto.ai.dtoResponseAI;
+import ru.ilcorp.neuro_test.model.entity.assignment.ExtensiveTestingEntity;
 import ru.ilcorp.neuro_test.model.entity.user.StudentUserEntity;
 import ru.ilcorp.neuro_test.model.entity.user.TeacherUserEntity;
 
@@ -35,8 +36,12 @@ public class ExtensiveTestingResultEntity {
     @ManyToOne
     @JoinColumn(name = "student_id")
     private StudentUserEntity studentUserEntity;
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "testing")
+    private ExtensiveTestingEntity testingEntity;
 
     public ExtensiveTestingResultEntity(
+            ExtensiveTestingEntity testing,
             List<AssignmentResultEntity> assignmentResultEntities,
             dtoResponseAI responseAI,
             LocalDateTime analyzeAt,
@@ -51,6 +56,7 @@ public class ExtensiveTestingResultEntity {
         this.weaknesses = responseAI.getWeaknesses();
         this.studentUserEntity = studentUserEntity;
         this.teacherUserEntity = teacherUserEntity;
+        this.testingEntity = testing;
     }
 
     public Long getTestingResultId() {
@@ -131,5 +137,13 @@ public class ExtensiveTestingResultEntity {
 
     public void setStudentUserEntity(StudentUserEntity studentUserEntity) {
         this.studentUserEntity = studentUserEntity;
+    }
+
+    public ExtensiveTestingEntity getTestingEntity() {
+        return testingEntity;
+    }
+
+    public void setTestingEntity(ExtensiveTestingEntity testingEntity) {
+        this.testingEntity = testingEntity;
     }
 }

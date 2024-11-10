@@ -87,4 +87,12 @@ public class AssignmentResultEntity {
     public void setExtensiveTestingResultEntity(ExtensiveTestingResultEntity extensiveTestingResultEntity) {
         this.extensiveTestingResultEntity = extensiveTestingResultEntity;
     }
+
+    public AssignmentEntity getAssignmentEntity() {
+        return assignmentEntity;
+    }
+
+    public void setAssignmentEntity(AssignmentEntity assignmentEntity) {
+        this.assignmentEntity = assignmentEntity;
+    }
 }

@@ -1,4 +1,4 @@
-package ru.ilcorp.neuro_test.repositories.assignment;
+package ru.ilcorp.neuro_test.repositories.testing;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

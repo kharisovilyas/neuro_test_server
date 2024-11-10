@@ -20,10 +20,11 @@ public class dtoTesting {
     private Integer remainingTime;
     private Boolean lateSubmission;
     private List<dtoAssignment> assignments;
-    private dtoAssignmentResultAI assignmentResult;
+    private dtoTestingResult testingResult;
     private dtoTeacherSummary teacher;
     private Integer quantityAssignment;
     private dtoClass edClass;
+    private Boolean isAnalyzer;
 
     public dtoTesting(ExtensiveTestingEntity extensiveTestingEntity) {
         this.testingId = extensiveTestingEntity.getTestingId();
@@ -31,8 +32,8 @@ public class dtoTesting {
         this.dueDate = extensiveTestingEntity.getDueDate();
         this.createdAt = extensiveTestingEntity.getCreatedAt();
         this.quantityAssignment = extensiveTestingEntity.getAssignmentEntities().size();
-        this.leadTime = Duration.between(extensiveTestingEntity.getDueDate(), extensiveTestingEntity.getCreatedAt()).toMinutesPart();
-        this.remainingTime = Duration.between(extensiveTestingEntity.getDueDate(), LocalDateTime.now()).toMinutesPart();
+        this.leadTime = Duration.between(extensiveTestingEntity.getCreatedAt(), extensiveTestingEntity.getDueDate()).toMinutesPart();
+        this.remainingTime = Duration.between(LocalDateTime.now(), extensiveTestingEntity.getDueDate()).toMinutesPart();
         this.assignments = extensiveTestingEntity.getAssignmentEntities().stream().map(dtoAssignment::new).collect(Collectors.toList());
         this.lateSubmission = extensiveTestingEntity.getLateSubmission();
         this.teacher = new dtoTeacherSummary(extensiveTestingEntity.getTeacherUserEntity());
@@ -113,12 +114,20 @@ public class dtoTesting {
         return leadTime;
     }
 
-    public dtoAssignmentResultAI getAssignmentResult() {
-        return assignmentResult;
+    public void setLeadTime(Integer leadTime) {
+        this.leadTime = leadTime;
     }
 
-    public void setAssignmentResult(dtoAssignmentResultAI assignmentResult) {
-        this.assignmentResult = assignmentResult;
+    public dtoTestingResult getTestingResult() {
+        return testingResult;
+    }
+
+    public void setTestingResult(dtoTestingResult testingResult) {
+        this.testingResult = testingResult;
+    }
+
+    public void setQuantityAssignment(Integer quantityAssignment) {
+        this.quantityAssignment = quantityAssignment;
     }
 
     public Integer getRemainingTime() {

@@ -22,17 +22,6 @@ import java.util.List;
 @RequestMapping("/api/v1/assignment")
 public class RestAssignmentController {
     @Autowired private AssignmentService assignmentService;
-    @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
-    @PostMapping("/add")
-    @PreAuthorize("hasRole('TEACHER')") // Только для пользователей с ролью учитель
-    public ResponseEntity<dtoMessage> addAssignment(@RequestBody dtoTesting testing)
-            throws EntityNotFoundException, IncorrectTokenException
-    {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String uniqueTeacherUsername = authentication.getName();
-        assignmentService.addTesting(testing, uniqueTeacherUsername);
-        return ResponseEntity.ok().body(new dtoMessage("SUCCESS", "Тестирование успешно загружено"));
-    }
 
     @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
     @GetMapping("/all")
@@ -59,16 +48,6 @@ public class RestAssignmentController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uniqueStudentUsername = authentication.getName();
         return ResponseEntity.ok().body(assignmentService.addStudentAnswer(studentAnswer, uniqueStudentUsername));
-    }
-    @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})
-    @PostMapping("/answer")
-    @PreAuthorize("hasRole('STUDENT')") // Только для пользователей с ролью студент
-    public ResponseEntity<dtoTestingResult> uploadStudentAnswerAssignment(@RequestBody dtoTesting testing)
-            throws EntityNotFoundException, IncorrectTokenException, LateSubmissionException
-    {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String uniqueStudentUsername = authentication.getName();
-        return ResponseEntity.ok().body(assignmentService.uploadStudentAnswerForAssignment(testing, uniqueStudentUsername));
     }
 
     @CrossOrigin(origins = {"http://localhost:3000", "http://194.58.114.242:8080", "https://ml-edu-platform.netlify.app/"})

@@ -2,6 +2,7 @@ package ru.ilcorp.neuro_test.model.entity.assignment;
 
 import jakarta.persistence.*;
 import ru.ilcorp.neuro_test.model.dto.assignment.dtoTesting;
+import ru.ilcorp.neuro_test.model.entity.assignment.result.ExtensiveTestingResultEntity;
 import ru.ilcorp.neuro_test.model.entity.classroom.ClassEntity;
 import ru.ilcorp.neuro_test.model.entity.user.TeacherUserEntity;
 
@@ -24,11 +25,16 @@ public class ExtensiveTestingEntity {
     private LocalDateTime createdAt;
     @Column(name = "late_submission")
     private Boolean lateSubmission;
+    @Column(name = "is_analyzer")
+    private Boolean isAnalyzer;
     @OneToMany(mappedBy = "extensiveTestingEntity")
     private List<AssignmentEntity> assignmentEntities;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id")
     private TeacherUserEntity teacherUserEntity;
+    @OneToOne(mappedBy = "testingEntity")
+    @JoinColumn(name = "testing_result")
+    private ExtensiveTestingResultEntity testingResultEntity;
     @ManyToOne
     @JoinColumn(name = "class_id")
     private ClassEntity classEntity;
@@ -112,5 +118,17 @@ public class ExtensiveTestingEntity {
 
     public void setLateSubmission(Boolean lateSubmission) {
         this.lateSubmission = lateSubmission;
+    }
+
+    public Boolean getAnalyzer() {
+        return isAnalyzer;
+    }
+
+    public void setAnalyzer(Boolean analyzer) {
+        isAnalyzer = analyzer;
+    }
+
+    public void setTestingResultEntity(ExtensiveTestingResultEntity testingResultEntity) {
+
     }
 }

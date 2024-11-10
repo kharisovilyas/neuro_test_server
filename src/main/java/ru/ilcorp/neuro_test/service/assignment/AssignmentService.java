@@ -22,8 +22,9 @@ import ru.ilcorp.neuro_test.model.entity.user.StudentUserEntity;
 import ru.ilcorp.neuro_test.model.entity.user.TeacherUserEntity;
 import ru.ilcorp.neuro_test.repositories.assignment.AssignmentRepository;
 import ru.ilcorp.neuro_test.repositories.assignment.StudentAnswerRepository;
-import ru.ilcorp.neuro_test.repositories.assignment.TestingRepository;
+import ru.ilcorp.neuro_test.repositories.testing.TestingRepository;
 import ru.ilcorp.neuro_test.repositories.classroom.edClassRepository;
+import ru.ilcorp.neuro_test.repositories.testing.TestingResultRepository;
 import ru.ilcorp.neuro_test.repositories.user.StudentUserRepository;
 import ru.ilcorp.neuro_test.repositories.user.TeacherUserRepository;
 import ru.ilcorp.neuro_test.service.connect.ConnectToAIService;
@@ -48,6 +49,7 @@ public class AssignmentService {
     private StudentUserRepository studentUserRepository;
     @Autowired
     private StudentAnswerRepository studentAnswerRepository;
+    @Autowired private TestingResultRepository testingResultRepository;
 
     @Autowired
     private ConnectToAIService connectToAIService;
@@ -113,7 +115,7 @@ public class AssignmentService {
     }
 
     @Transactional
-    public dtoTestingResult uploadStudentAnswerForAssignment(dtoTesting testing, String uniqueStudentUsername) {
+    public dtoTestingResult uploadStudentAnswerForTesting(dtoTesting testing, String uniqueStudentUsername) {
         StudentUserEntity studentUserEntity = studentUserRepository.findByUserAuthEntityUniqueUsername(uniqueStudentUsername);
         StudentAnswerEntity studentAnswerEntity = studentAnswerRepository
                 .findAllByStudentUserEntityUserAuthEntityUniqueUsernameAndAssignmentEntityExtensiveTestingEntityTestingId(
@@ -146,8 +148,11 @@ public class AssignmentService {
                                 .findById(it.getId())
                                 .orElseThrow(() -> new EntityNotFoundException("Некорректный ответ от AI"))
                 )).toList();
+        ExtensiveTestingEntity testingEntity = testingRepository.findById(testing.getTestingId()).orElseThrow();
+
 
         ExtensiveTestingResultEntity testingResultEntity = new ExtensiveTestingResultEntity(
+                testingEntity,
                 assignmentResultEntities,
                 responseAI,
                 analyzeAt,
@@ -155,6 +160,13 @@ public class AssignmentService {
                 studentUserEntity,
                 teacherUserEntity
         );
+
+        testingEntity.setAnalyzer(true);
+        testingEntity.setTestingResultEntity(testingResultEntity);
+        testingResultRepository.save(testingResultEntity);
+        testingRepository.save(testingEntity);
+
+
         return new dtoTestingResult(testingResultEntity);
     }
 
@@ -194,5 +206,12 @@ public class AssignmentService {
     @Transactional
     public List<dtoTesting> getAllForUser(boolean isTeacher, String uniqueUsername) {
         return isTeacher ? getAllForTeacher(uniqueUsername) : getAllForStudent(uniqueUsername);
+    }
+
+    @Transactional
+    public dtoTestingResult getResultForStudent(Long testingId, String uniqueStudentUsername) {
+        return new dtoTestingResult(
+                testingResultRepository.findAllByStudentUserEntityUserAuthEntityUniqueUsernameAndTestingEntityTestingId(uniqueStudentUsername, testingId)
+        );
     }
 }
